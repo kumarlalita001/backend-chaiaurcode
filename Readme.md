@@ -22,3 +22,10 @@
 
 11. npm i dotenv express mongoose
     ---NOTE : as early as possible configure dotenv
+
+12. user model and video model done
+
+13. npm i mongoose-aggregate-paginate-v2
+
+14. npm i bcrypt or bcryptjs and jsonwebtoken
+    // jwt is a bearer token
