@@ -29,3 +29,5 @@
 
 14. npm i bcrypt or bcryptjs and jsonwebtoken
     // jwt is a bearer token
+
+15. npm i cloudinary multer
