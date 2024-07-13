@@ -31,3 +31,7 @@
     // jwt is a bearer token
 
 15. npm i cloudinary multer
+
+16. routes created
+
+17. register controller logic added and postman setup and usages done
