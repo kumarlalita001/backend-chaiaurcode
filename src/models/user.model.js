@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-const UserSchema = new Schema(
+const userSchema = new Schema(
   {
     username: {
       type: String,
@@ -40,8 +40,6 @@ const UserSchema = new Schema(
     password: {
       type: String,
       required: [true, "Password is Must"],
-      minlength: 8,
-      select: false,
     },
     refreshToken: {
       type: String,
@@ -52,7 +50,7 @@ const UserSchema = new Schema(
   }
 );
 
-UserSchema.pre("save", async function (next) {
+userSchema.pre("save", async function (next) {
   /*
           this.password = await bcrypt.hash(this.password, 10);
           next();
@@ -68,12 +66,21 @@ UserSchema.pre("save", async function (next) {
   next();
 });
 
-UserSchema.methods.isPasswordCorrect = async function (password) {
-  return await bcrypt.compare(password, this.password);
-  // this will check password is correct or not
+userSchema.methods.isPasswordCorrect = async function (password) {
+  //return await bcrypt.compare(password, this.password);
+  //return true;
+  console.log(this.password, "this.password");
+  console.log(this, "this");
+  try {
+    const isMatch = await bcrypt.compare(password, this.password);
+    return isMatch;
+  } catch (err) {
+    console.error(err, "Something went wrong at isPasswrodCorrect");
+    return false;
+  }
 };
 
-UserSchema.methods.generateAccessToken = function () {
+userSchema.methods.generateAccessToken = function () {
   return jwt.sign(
     {
       _id: this._id,
@@ -88,7 +95,7 @@ UserSchema.methods.generateAccessToken = function () {
   );
 };
 
-UserSchema.methods.generateRefreshToken = function () {
+userSchema.methods.generateRefreshToken = function () {
   return jwt.sign(
     {
       _id: this._id,
@@ -100,4 +107,4 @@ UserSchema.methods.generateRefreshToken = function () {
   );
 };
 
-export const User = mongoose.model("User", UserSchema);
+export const User = mongoose.model("User", userSchema);
